@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTr
 import { HeroPreviewCard } from '@/components/HeroPreviewCard';
 import { NavPills } from '@/components/NavPills';
 import { HeroDecorations } from '@/components/HeroDecorations';
+import { cn } from '@/lib/utils';
 export function HomePage() {
   const [ctaVariant, setCtaVariant] = useState<'primary' | 'outline'>('primary');
   const handleCtaClick = () => {
@@ -73,8 +74,12 @@ export function HomePage() {
                     onClick={handleCtaClick}
                     onMouseEnter={() => setCtaVariant('outline')}
                     onMouseLeave={() => setCtaVariant('primary')}
-                    variant={ctaVariant}
-                    className="w-full sm:w-auto rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:scale-95 bg-[#2F6BF6] text-white hover:bg-transparent hover:text-[#2F6BF6] border-2 border-transparent hover:border-[#2F6BF6] shadow-blue-500/30"
+                    className={cn(
+                      "w-full sm:w-auto rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:scale-95 border-2",
+                      ctaVariant === 'primary'
+                        ? 'bg-[#2F6BF6] text-white border-transparent shadow-blue-500/30'
+                        : 'bg-transparent text-[#2F6BF6] border-[#2F6BF6]'
+                    )}
                   >
                     Try it now
                   </Button>
