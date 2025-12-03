@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Toaster, toast } from '@/components/ui/sonner';
+import { Toaster, toast } from 'sonner';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
 import { HeroPreviewCard } from '@/components/HeroPreviewCard';
 import { NavPills } from '@/components/NavPills';
