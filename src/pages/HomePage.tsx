@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, easeOut } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Toaster, toast } from 'sonner';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
@@ -7,7 +7,10 @@ import { HeroPreviewCard } from '@/components/HeroPreviewCard';
 import { NavPills } from '@/components/NavPills';
 import { HeroDecorations } from '@/components/HeroDecorations';
 export function HomePage() {
+  const [ctaVariant, setCtaVariant] = useState<'primary' | 'outline'>('primary');
   const handleCtaClick = () => {
+    // This will be picked up by the errorReporter to simulate an analytics event
+    console.warn('CTA clicked', { timestamp: Date.now(), variant: 'Try it now' });
     toast.success('Coming soon!', {
       description: 'We are preparing something amazing for you.',
     });
@@ -28,7 +31,7 @@ export function HomePage() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: 'easeOut',
+        ease: easeOut,
       },
     },
   };
@@ -68,7 +71,10 @@ export function HomePage() {
                   <Button
                     size="lg"
                     onClick={handleCtaClick}
-                    className="w-full sm:w-auto bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:scale-95"
+                    onMouseEnter={() => setCtaVariant('outline')}
+                    onMouseLeave={() => setCtaVariant('primary')}
+                    variant={ctaVariant}
+                    className="w-full sm:w-auto rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:scale-95 bg-[#2F6BF6] text-white hover:bg-transparent hover:text-[#2F6BF6] border-2 border-transparent hover:border-[#2F6BF6] shadow-blue-500/30"
                   >
                     Try it now
                   </Button>
@@ -76,6 +82,7 @@ export function HomePage() {
                     <SheetTrigger asChild>
                       <Button
                         variant="link"
+                        aria-label="Learn more about our free trial"
                         className="text-gray-600 font-medium hover:text-[#2F6BF6]"
                       >
                         Learn more about our free trial
@@ -85,7 +92,12 @@ export function HomePage() {
                       <SheetHeader>
                         <SheetTitle>Free Trial Information</SheetTitle>
                         <SheetDescription>
-                          Our free trial gives you access to all our premium features for 14 days. No credit card required. Start sending large files with ease and enjoy enhanced security and collaboration tools.
+                          <ul className="list-disc list-inside space-y-2 mt-4 text-left">
+                            <li>14-day premium access to all features.</li>
+                            <li>No credit card required to get started.</li>
+                            <li>Unlimited transfers up to 2GB per transfer.</li>
+                            <li>Enhanced security and collaboration tools.</li>
+                          </ul>
                         </SheetDescription>
                       </SheetHeader>
                     </SheetContent>
