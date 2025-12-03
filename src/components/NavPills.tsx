@@ -74,8 +74,8 @@ export function NavPills() {
         <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl rounded-2xl">
           <DialogHeader className="text-left">
             <DialogTitle className="text-2xl font-semibold text-[#17202A]">Get started for free</DialogTitle>
-            <DialogDescription className="text-muted-foreground" id="signup-description">
-              Enter your email to begin your free trial.
+            <DialogDescription id="signup-description">
+              Enter your email to begin your free trial. No credit card required.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSignupSubmit}>

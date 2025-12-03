@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Download, Eye, FileText, Film, Image as ImageIcon, Link as LinkIcon, Music } from 'lucide-react';
+import { Download, Eye, FileText, Film, Image as ImageIcon, Link as LinkIcon, Music, X } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 const MOCK_FILES = [
   { id: 1, name: 'brand-assets.zip', size: '2.1 GB', type: 'zip' },
   { id: 2, name: 'project-final.mov', size: '874 MB', type: 'video' },
@@ -37,17 +50,21 @@ const FileItem = ({ file, isLoaded }: { file: typeof MOCK_FILES[0]; isLoaded: bo
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                  <Download className="w-4 h-4" />
-                </Button>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                    <Download className="w-4 h-4" />
+                  </Button>
+                </DialogTrigger>
               </TooltipTrigger>
               <TooltipContent><p>Download</p></TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                  <Eye className="w-4 h-4" />
-                </Button>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                    <Eye className="w-4 h-4" />
+                  </Button>
+                </DialogTrigger>
               </TooltipTrigger>
               <TooltipContent><p>Preview</p></TooltipContent>
             </Tooltip>
@@ -67,10 +84,25 @@ const FileItem = ({ file, isLoaded }: { file: typeof MOCK_FILES[0]; isLoaded: bo
 );
 export function HeroPreviewCard() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 1500);
     return () => clearTimeout(timer);
   }, []);
+  const handleAuthSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    if (!email || !password) {
+      toast.error('Please enter both email and password.');
+      return;
+    }
+    setIsAuthOpen(false);
+    toast.success('Logged in successfully!', {
+      description: 'Your download will start shortly.',
+    });
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 50, scale: 0.95 }}
@@ -78,37 +110,74 @@ export function HeroPreviewCard() {
       transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
       className="w-full max-w-md mx-auto"
     >
-      <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <Card className="shadow-2xl shadow-blue-500/10 rounded-3xl overflow-hidden border-gray-200/80 bg-white/80 backdrop-blur-xl">
-          <CardHeader className="p-6">
-            <CardTitle className="text-xl font-semibold text-gray-900">Your files are ready</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6 pt-0">
-            <div className="border rounded-xl divide-y max-h-64 overflow-y-auto p-2">
-              {(isLoaded ? MOCK_FILES : Array(5).fill(0)).map((file, index) => (
-                <FileItem key={file.id || index} file={file} isLoaded={isLoaded} />
-              ))}
+      <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <Card className="shadow-2xl shadow-blue-500/10 rounded-3xl overflow-hidden border-gray-200/80 bg-white/80 backdrop-blur-xl">
+            <CardHeader className="p-6">
+              <CardTitle className="text-xl font-semibold text-gray-900">Your files are ready</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 pt-0">
+              <div className="border rounded-xl divide-y max-h-64 overflow-y-auto p-2">
+                {(isLoaded ? MOCK_FILES : Array(5).fill(0)).map((file, index) => (
+                  <FileItem key={file.id || index} file={file} isLoaded={isLoaded} />
+                ))}
+              </div>
+              <div className="mt-4 flex items-center justify-center">
+                <Button variant="link" size="sm" className="text-gray-500 hover:text-gray-800">
+                  <LinkIcon className="w-3 h-3 mr-1.5" />
+                  Report a problem
+                </Button>
+              </div>
+            </CardContent>
+            <CardFooter className="bg-gray-50/70 p-6 flex flex-col sm:flex-row gap-3">
+              <DialogTrigger asChild>
+                <Button size="lg" className="w-full bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 text-white rounded-full shadow-lg shadow-blue-500/20 transition-all hover:shadow-xl hover:-translate-y-0.5 active:scale-95">
+                  Download all
+                </Button>
+              </DialogTrigger>
+              <DialogTrigger asChild>
+                <Button size="lg" variant="outline" className="w-full bg-white hover:bg-gray-50 rounded-full border-gray-300 transition-all hover:-translate-y-0.5 active:scale-95">
+                  Open preview
+                </Button>
+              </DialogTrigger>
+            </CardFooter>
+          </Card>
+        </motion.div>
+        <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl rounded-2xl">
+          <DialogHeader className="text-left">
+            <DialogTitle className="text-2xl font-semibold text-[#17202A]">Sign in to download</DialogTitle>
+            <DialogDescription id="auth-desc">
+              Enter your credentials to access your files.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleAuthSubmit}>
+            <div className="flex flex-col gap-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="auth-email">Email</Label>
+                <Input id="auth-email" name="email" type="email" placeholder="you@example.com" required aria-describedby="auth-desc" className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="auth-password">Password</Label>
+                <Input id="auth-password" name="password" type="password" required aria-describedby="auth-desc" className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20" />
+              </div>
             </div>
-            <div className="mt-4 flex items-center justify-center">
-              <Button variant="link" size="sm" className="text-gray-500 hover:text-gray-800">
-                <LinkIcon className="w-3 h-3 mr-1.5" />
-                Report a problem
+            <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-between w-full gap-2">
+              <DialogClose asChild>
+                <Button type="button" variant="outline" size="sm" className="flex items-center gap-1.5">
+                  <X className="w-4 h-4" />
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="submit" className="bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 rounded-xl px-6 text-white font-semibold">
+                Sign in
               </Button>
-            </div>
-          </CardContent>
-          <CardFooter className="bg-gray-50/70 p-6 flex flex-col sm:flex-row gap-3">
-            <Button size="lg" className="w-full bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 text-white rounded-full shadow-lg shadow-blue-500/20 transition-all hover:shadow-xl hover:-translate-y-0.5 active:scale-95">
-              Download all
-            </Button>
-            <Button size="lg" variant="outline" className="w-full bg-white hover:bg-gray-50 rounded-full border-gray-300 transition-all hover:-translate-y-0.5 active:scale-95">
-              Open preview
-            </Button>
-          </CardFooter>
-        </Card>
-      </motion.div>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
