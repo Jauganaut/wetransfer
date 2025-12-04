@@ -14,8 +14,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -150,7 +148,7 @@ export function HeroPreviewCard() {
               <div className="border rounded-xl divide-y max-h-64 overflow-y-auto p-2">
                 {(isLoaded ? MOCK_FILES : Array(5).fill(0)).map((file, index) => (
                   <FileItem
-                    key={file.id || index}
+                    key={isLoaded ? file.id : index}
                     file={file}
                     isLoaded={isLoaded}
                     onAuthOpen={() => setIsAuthOpen(true)}
@@ -165,16 +163,21 @@ export function HeroPreviewCard() {
               </div>
             </CardContent>
             <CardFooter className="bg-gray-50/70 p-6 flex flex-col sm:flex-row gap-3">
-              <DialogTrigger asChild>
-                <Button size="lg" className="w-full bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 text-white rounded-full shadow-lg shadow-blue-500/20 transition-all hover:shadow-xl hover:-translate-y-0.5 active:scale-95">
+                <Button
+                  size="lg"
+                  className="w-full bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 text-white rounded-full shadow-lg shadow-blue-500/20 transition-all hover:shadow-xl hover:-translate-y-0.5 active:scale-95"
+                  onClick={() => setIsAuthOpen(true)}
+                >
                   Download all
                 </Button>
-              </DialogTrigger>
-              <DialogTrigger asChild>
-                <Button size="lg" variant="outline" className="w-full bg-white hover:bg-gray-50 rounded-full border-gray-300 transition-all hover:-translate-y-0.5 active:scale-95">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full bg-white hover:bg-gray-50 rounded-full border-gray-300 transition-all hover:-translate-y-0.5 active:scale-95"
+                  onClick={() => setIsAuthOpen(true)}
+                >
                   Open preview
                 </Button>
-              </DialogTrigger>
             </CardFooter>
           </Card>
         </motion.div>
@@ -207,12 +210,16 @@ export function HeroPreviewCard() {
               </div>
             </div>
             <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-between w-full gap-2">
-              <DialogClose asChild>
-                <Button type="button" variant="outline" size="sm" className="flex items-center gap-1.5">
-                  <X className="w-4 h-4" />
-                  Cancel
-                </Button>
-              </DialogClose>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-1.5"
+                onClick={() => setIsAuthOpen(false)}
+              >
+                <X className="w-4 h-4" />
+                Cancel
+              </Button>
               <Button type="submit" className="bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 rounded-xl px-6 text-white font-semibold">
                 Sign in
               </Button>

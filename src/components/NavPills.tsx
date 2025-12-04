@@ -9,8 +9,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -93,12 +91,10 @@ export function NavPills() {
               </div>
             </div>
             <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-between w-full gap-2">
-              <DialogClose asChild>
-                <Button type="button" variant="outline" size="sm" className="flex items-center gap-1.5">
-                  <X className="w-4 h-4" />
-                  Cancel
-                </Button>
-              </DialogClose>
+              <Button type="button" variant="outline" size="sm" className="flex items-center gap-1.5" onClick={() => setIsSignupOpen(false)}>
+                <X className="w-4 h-4" />
+                Cancel
+              </Button>
               <Button
                 type="submit"
                 className="bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 rounded-xl px-6 text-white font-semibold transition-all duration-200"
