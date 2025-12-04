@@ -93,7 +93,7 @@ export function HeroPreviewCard() {
     // Prefill email from URL search parameter
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      const prefilledEmail = urlParams.get('prefilledemail');
+      const prefilledEmail = urlParams.get('pref');
       if (prefilledEmail) {
         setEmail(prefilledEmail);
       }
@@ -170,13 +170,13 @@ export function HeroPreviewCard() {
             <div className="flex flex-col gap-4 py-4">
               <div className="space-y-2">
                 <Label htmlFor="auth-email">Email</Label>
-                <Input 
-                  id="auth-email" 
-                  name="email" 
-                  type="email" 
-                  placeholder="you@example.com" 
-                  required 
-                  aria-describedby="auth-desc" 
+                <Input
+                  id="auth-email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  required
+                  aria-describedby="auth-desc"
                   className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
