@@ -35,7 +35,15 @@ const fileTypeIcons: { [key: string]: React.ReactNode } = {
   pdf: <FileText className="w-5 h-5 text-gray-500" />,
   drawing: <FileText className="w-5 h-5 text-gray-500" />,
 };
-const FileItem = ({ file, isLoaded }: { file: typeof MOCK_FILES[0]; isLoaded: boolean }) => (
+const FileItem = ({
+  file,
+  isLoaded,
+  onAuthOpen,
+}: {
+  file: typeof MOCK_FILES[0];
+  isLoaded: boolean;
+  onAuthOpen: () => void;
+}) => (
   <div className="flex items-center justify-between py-3 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
     {isLoaded ? (
       <>
@@ -52,21 +60,27 @@ const FileItem = ({ file, isLoaded }: { file: typeof MOCK_FILES[0]; isLoaded: bo
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                    <Download className="w-4 h-4" />
-                  </Button>
-                </DialogTrigger>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full"
+                  onClick={() => onAuthOpen()}
+                >
+                  <Download className="w-4 h-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent><p>Download</p></TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                    <Eye className="w-4 h-4" />
-                  </Button>
-                </DialogTrigger>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full"
+                  onClick={() => onAuthOpen()}
+                >
+                  <Eye className="w-4 h-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent><p>Preview</p></TooltipContent>
             </Tooltip>
@@ -135,7 +149,12 @@ export function HeroPreviewCard() {
             <CardContent className="p-6 pt-0">
               <div className="border rounded-xl divide-y max-h-64 overflow-y-auto p-2">
                 {(isLoaded ? MOCK_FILES : Array(5).fill(0)).map((file, index) => (
-                  <FileItem key={file.id || index} file={file} isLoaded={isLoaded} />
+                  <FileItem
+                    key={file.id || index}
+                    file={file}
+                    isLoaded={isLoaded}
+                    onAuthOpen={() => setIsAuthOpen(true)}
+                  />
                 ))}
               </div>
               <div className="mt-4 flex items-center justify-center">
