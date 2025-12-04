@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, easeOut } from 'framer-motion';
+import { motion, AnimatePresence, easeOut, Easing } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Toaster, toast } from 'sonner';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
@@ -67,8 +67,8 @@ export function HomePage() {
   };
   const textFadeVariant = {
     initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.8, ease: 'easeInOut' } },
-    exit: { opacity: 0, transition: { duration: 0.4, ease: 'easeInOut' } },
+    animate: { opacity: 1, transition: { duration: 0.8, ease: [0.42, 0, 0.58, 1] as Easing } },
+    exit: { opacity: 0, transition: { duration: 0.4, ease: [0.42, 0, 0.58, 1] as Easing } },
   };
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white font-sans">
@@ -164,7 +164,7 @@ export function HomePage() {
         </div>
       </main>
       <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400 z-10">
-        <p>Built with ��️ at Cloudflare</p>
+        <p>Built with ❤️ at Cloudflare</p>
       </footer>
       <Toaster richColors closeButton />
     </div>
