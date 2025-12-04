@@ -72,7 +72,7 @@ export function HomePage() {
   };
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white font-sans">
-      <img src="https://placehold.co/100x24/000000/FFFFFF?text=we" alt="WeTransfer Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-6 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200" />
+      <img src="https://placehold.co/100x24/FFFFFF/000000?text=we" alt="WeTransfer Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-6 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200 pointer-events-none" />
       <HeroDecorations color={activeVariant.color} />
       <NavPills />
       <main className="relative z-10">
