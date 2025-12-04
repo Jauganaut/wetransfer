@@ -20,11 +20,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 const MOCK_FILES = [
-  { id: 1, name: 'brand-assets.zip', size: '2.1 GB', type: 'zip' },
-  { id: 2, name: 'project-final.mov', size: '874 MB', type: 'video' },
-  { id: 3, name: 'logo-v2.png', size: '1.2 MB', type: 'image' },
-  { id: 4, name: 'website-copy.docx', size: '88 KB', type: 'doc' },
-  { id: 5, name: 'background-music.mp3', size: '4.5 MB', type: 'audio' },
+  { id: 1, name: 'Purchase Order.pdf', size: '1.5 MB', type: 'pdf' },
+  { id: 2, name: 'Sample.docx', size: '450 KB', type: 'doc' },
+  { id: 3, name: 'Drawing.dwg', size: '2.3 MB', type: 'drawing' },
+  { id: 4, name: 'Company Profile.pdf', size: '8.2 MB', type: 'pdf' },
+  { id: 5, name: 'Invoice.pdf', size: '320 KB', type: 'pdf' },
 ];
 const fileTypeIcons: { [key: string]: React.ReactNode } = {
   zip: <FileText className="w-5 h-5 text-gray-500" />,
@@ -32,6 +32,8 @@ const fileTypeIcons: { [key: string]: React.ReactNode } = {
   image: <ImageIcon className="w-5 h-5 text-gray-500" />,
   doc: <FileText className="w-5 h-5 text-gray-500" />,
   audio: <Music className="w-5 h-5 text-gray-500" />,
+  pdf: <FileText className="w-5 h-5 text-gray-500" />,
+  drawing: <FileText className="w-5 h-5 text-gray-500" />,
 };
 const FileItem = ({ file, isLoaded }: { file: typeof MOCK_FILES[0]; isLoaded: boolean }) => (
   <div className="flex items-center justify-between py-3 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
