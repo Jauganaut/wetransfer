@@ -57,19 +57,16 @@ export function NavPills() {
           >
             Log in
           </Button>
-          <DialogTrigger asChild>
             <Button
               aria-label="Sign up"
+              onClick={() => setIsSignupOpen(true)}
               className="rounded-full px-4 py-1.5 text-sm font-medium bg-[#17202A] text-white hover:bg-[#17202A]/90 focus-visible:ring-2 focus-visible:ring-[#2F6BF6]/50"
             >
               Sign up
             </Button>
-          </DialogTrigger>
         </div>
         <div className="md:hidden">
-          <DialogTrigger asChild>
-            <Button variant="outline" className="rounded-full bg-white/80 backdrop-blur-sm">Menu</Button>
-          </DialogTrigger>
+            <Button variant="outline" onClick={() => setIsSignupOpen(true)} className="rounded-full bg-white/80 backdrop-blur-sm">Menu</Button>
         </div>
         <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl rounded-2xl">
           <DialogHeader className="text-left">
