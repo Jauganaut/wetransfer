@@ -67,8 +67,8 @@ export function HomePage() {
   };
   const textFadeVariant = {
     initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } },
-    exit: { opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } },
+    animate: { opacity: 1, transition: { duration: 0.8, ease: [0.42, 0, 0.58, 1] } },
+    exit: { opacity: 0, transition: { duration: 0.4, ease: [0.42, 0, 0.58, 1] } },
   };
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white font-sans">
@@ -164,7 +164,7 @@ export function HomePage() {
         </div>
       </main>
       <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400 z-10">
-        <p>Built with ��️ at Cloudflare</p>
+        <p>Built with ❤️ at Cloudflare</p>
       </footer>
       <Toaster richColors closeButton />
     </div>
