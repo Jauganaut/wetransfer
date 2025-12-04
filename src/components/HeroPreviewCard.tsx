@@ -87,15 +87,26 @@ const FileItem = ({ file, isLoaded }: { file: typeof MOCK_FILES[0]; isLoaded: bo
 export function HeroPreviewCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [email, setEmail] = useState('');
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 1500);
+    // Prefill email from URL search parameter
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const prefilledEmail = urlParams.get('prefilledemail');
+      if (prefilledEmail) {
+        setEmail(prefilledEmail);
+      }
+    } catch (error) {
+      console.warn("Could not parse URL params for email prefill:", error);
+    }
     return () => clearTimeout(timer);
   }, []);
   const handleAuthSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const email = formData.get('email') as string;
     const password = formData.get('password') as string;
+    // Use email from state for controlled component
     if (!email || !password) {
       toast.error('Please enter both email and password.');
       return;
@@ -159,7 +170,17 @@ export function HeroPreviewCard() {
             <div className="flex flex-col gap-4 py-4">
               <div className="space-y-2">
                 <Label htmlFor="auth-email">Email</Label>
-                <Input id="auth-email" name="email" type="email" placeholder="you@example.com" required aria-describedby="auth-desc" className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20" />
+                <Input 
+                  id="auth-email" 
+                  name="email" 
+                  type="email" 
+                  placeholder="you@example.com" 
+                  required 
+                  aria-describedby="auth-desc" 
+                  className="rounded-xl border-gray-300 focus:border-[#2F6BF6] focus:ring-2 focus:ring-[#2F6BF6]/20"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="auth-password">Password</Label>
