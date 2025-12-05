@@ -11,8 +11,7 @@ The application is a single, responsive landing page featuring:
 - **Responsive Design:** The layout is fully responsive and provides an excellent experience on all devices, from mobile phones to large desktops.
 ## Prerequisites
 Before you begin, ensure you have the following installed:
-- **[Bun](https://bun.sh/) (v1.0 or higher):** The project uses Bun as the package manager and runtime.
-- **[Node.js](https://nodejs.org/) (v18.0 or higher):** Required for the Bun runtime.
+- **[Node.js](https://nodejs.org/) (v18.0 or higher):** Required for npm package management and runtime compatibility.
 - **[Cloudflare Account](https://dash.cloudflare.com/sign-up):** Required for deploying the application using Wrangler.
 ## Setup
 To get the project up and running on your local machine, follow these simple steps:
@@ -23,26 +22,26 @@ To get the project up and running on your local machine, follow these simple ste
     ```
 2.  **Install dependencies:**
     ```bash
-    bun install
+    npm install
     ```
     This command will install all the necessary packages defined in `package.json`.
 ## Running Locally
 To start the development server and view the application in your browser:
 ```bash
-bun dev
+npm run dev
 ```
 The application will be available at `http://localhost:3000`. The server supports hot-reloading, so any changes you make to the code will be reflected instantly in the browser.
 ## Building & Deploying
 ### Building for Production
 To create a production-ready build of the application:
 ```bash
-bun build
+npm run build
 ```
 This command bundles the frontend assets and the Cloudflare Worker code into the `dist` directory.
 ### Deploying to Cloudflare
 To deploy the application to your Cloudflare account:
 ```bash
-bun deploy
+npm run deploy
 ```
 This command uses the Wrangler CLI to publish your application to Cloudflare's global network. You will be prompted to log in to your Cloudflare account if you haven't already.
 ## Export Options
@@ -54,7 +53,7 @@ Easily personalize the landing page to match your brand.
 1.  **Create the assets directory:** In the project's root, create a `public` folder if it doesn't exist, and inside it, create an `assets` folder. Your path should be `public/assets/`.
 2.  **Add your logo:** Place your logo file inside `public/assets/`. For best results, name it `logo.png` or `logo.svg`. A recommended size is around 120x24 pixels for crisp display.
 3.  **Update the code:** Open `src/pages/HomePage.tsx`. Find the `<img>` tag for the logo (it currently uses a `placehold.co` URL) and change its `src` attribute to `"/assets/logo.png"` (or the name of your file). Vite automatically serves files from the `public` directory.
-4.  **Verify:** Run `bun dev` and check that your new logo appears correctly on all screen sizes.
+4.  **Verify:** Run `npm run dev` and check that your new logo appears correctly on all screen sizes.
 ### Adding/Updating the Background Video
 The purple hero variant includes a video background.
 1.  **Find a video:** Get a short, looping, muted MP4 video. Sites like Pexels or Unsplash are great sources for free assets.
