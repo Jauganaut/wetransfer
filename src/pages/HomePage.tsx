@@ -190,25 +190,6 @@ export function HomePage() {
       </main>
       <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400 z-10">
         <p>Built with ❤️ at Cloudflare</p>
-        <div className="mt-4 flex flex-col items-center gap-2 opacity-50 hover:opacity-70 transition-opacity duration-300">
-          <iframe
-            src="about:blank"
-            width="200"
-            height="150"
-            className="rounded-xl border border-blue-200/50 bg-white/50 pointer-events-none md:w-48 md:h-32"
-            title="Experience our award-winning wallpapers"
-            aria-hidden="true"
-          ></iframe>
-          <a
-            href="https://aliinakauranne.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 hover:text-blue-800 text-xs underline"
-            aria-label="Visit Aliina Kauranne's creative portfolio"
-          >
-            Experience our award-winning wallpapers
-          </a>
-        </div>
       </footer>
       <Toaster richColors closeButton />
     </div>
