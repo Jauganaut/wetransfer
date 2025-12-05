@@ -87,10 +87,9 @@ export function HomePage() {
               preload="metadata"
               poster="https://placehold.co/1920x1080/8B5CF6/FFFFFF/png?text=Loading..."
               className="w-full h-full object-cover hidden md:block"
-              src="https://assets.mixkit.co/videos/preview/mixkit-abstract-floating-particles-background-31866-large.mp4"
-              onError={(e) => {
-                console.warn("Video load failed, using gradient fallback.");
-                e.currentTarget.style.display = 'none';
+              src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0"
+              onError={() => {
+                console.log("Video load failed, using gradient fallback.");
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent" />
