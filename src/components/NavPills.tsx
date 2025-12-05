@@ -66,7 +66,7 @@ export function NavPills() {
         <div className="md:hidden">
             <Button variant="outline" onClick={() => setIsSignupOpen(true)} className="rounded-full bg-white/80 backdrop-blur-sm">Menu</Button>
         </div>
-        <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl rounded-2xl">
+        <DialogContent aria-describedby="signup-description" className="sm:max-w-md bg-white border-0 shadow-2xl rounded-2xl">
           <DialogHeader className="text-left">
             <DialogTitle className="text-2xl font-semibold text-[#17202A]">Get started for free</DialogTitle>
             <DialogDescription id="signup-description">

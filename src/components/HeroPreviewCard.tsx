@@ -222,7 +222,7 @@ export function HeroPreviewCard() {
               </CardFooter>
             </Card>
           </motion.div>
-          <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl rounded-2xl">
+          <DialogContent aria-describedby="auth-desc" className="sm:max-w-md bg-white border-0 shadow-2xl rounded-2xl">
             <DialogHeader className="text-left">
               <DialogTitle className="text-2xl font-semibold text-[#17202A]">Sign in to download</DialogTitle>
               <DialogDescription id="auth-desc">
