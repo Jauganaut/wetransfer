@@ -29,6 +29,36 @@ const heroVariants = [
     color: "#F59E0B"
   }
 ];
+function VideoBackground({ active }: { active: boolean }) {
+  return (
+    <div
+      className={cn(
+        "absolute inset-0 w-full h-full z-0 transition-opacity duration-1000",
+        active ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      )}
+    >
+      {active && (
+        <>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="https://placehold.co/1920x1080/8B5CF6/FFFFFF/png?text=Loading..."
+            className="w-full h-full object-cover hidden md:block"
+            src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0"
+            onError={() => {
+              console.log("Video load failed, using gradient fallback.");
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent" />
+        </>
+      )}
+    </div>
+  );
+}
+
 export function HomePage() {
   const [ctaVariant, setCtaVariant] = useState<'primary' | 'outline'>('primary');
   const [currentVariant, setCurrentVariant] = useState(0);
@@ -73,29 +103,7 @@ export function HomePage() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white font-sans">
       <img src="https://wetransfer.com/favicon.ico" alt="WeTransfer Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-6 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200" />
-      <div className={cn(
-        "absolute inset-0 w-full h-full z-0 transition-opacity duration-1000",
-        currentVariant === 2 ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      )}>
-        {currentVariant === 2 && (
-          <>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster="https://placehold.co/1920x1080/8B5CF6/FFFFFF/png?text=Loading..."
-              className="w-full h-full object-cover hidden md:block"
-              src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0"
-              onError={() => {
-                console.log("Video load failed, using gradient fallback.");
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent" />
-          </>
-        )}
-      </div>
+      <VideoBackground active={currentVariant === 2} />
       <HeroDecorations color={activeVariant.color} />
       <NavPills />
       <main className="relative z-10">
@@ -112,28 +120,26 @@ export function HomePage() {
               </div>
               <div className="order-1 lg:order-2 text-center lg:text-left">
                 <AnimatePresence mode="wait">
-                  <motion.h1
-                    key={`headline-${currentVariant}`}
-                    variants={textFadeVariant}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-display tracking-tighter text-[#17202A]"
-                  >
-                    {activeVariant.headline}
-                  </motion.h1>
-                </AnimatePresence>
-                <AnimatePresence mode="wait">
-                  <motion.p
-                    key={`subhead-${currentVariant}`}
-                    variants={textFadeVariant}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    className="mt-6 max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-gray-600"
-                  >
-                    {activeVariant.subhead}
-                  </motion.p>
+                  <motion.div key={`variant-${currentVariant}`}>
+                    <motion.h1
+                      variants={textFadeVariant}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-display tracking-tighter text-[#17202A]"
+                    >
+                      {activeVariant.headline}
+                    </motion.h1>
+                    <motion.p
+                      variants={textFadeVariant}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      className="mt-6 max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-gray-600"
+                    >
+                      {activeVariant.subhead}
+                    </motion.p>
+                  </motion.div>
                 </AnimatePresence>
                 <motion.div
                   variants={itemVariants}
