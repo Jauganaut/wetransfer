@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, easeOut, Easing } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Toaster, toast } from 'sonner';
@@ -30,6 +30,16 @@ const heroVariants = [
   }
 ];
 function VideoBackground({ active }: { active: boolean }) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    if (iframeRef.current && active) {
+      try {
+        iframeRef.current.contentWindow?.postMessage({ command: 'play' }, '*');
+      } catch (e) {
+        console.log('Autoplay postMessage blocked (CORS), relying on embed attributes');
+      }
+    }
+  }, [active]);
   return (
     <div
       className={cn(
@@ -40,16 +50,18 @@ function VideoBackground({ active }: { active: boolean }) {
       {active && (
         <>
           <iframe
-            src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0"
+            ref={iframeRef}
+            src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0?autoplay=1"
             width="640"
             height="360"
             frameBorder="0"
             allow="autoplay; fullscreen"
             allowFullScreen
-            className="w-full h-full object-cover hidden md:block"
+            sandbox="allow-scripts allow-same-origin allow-autoplay"
+            className="w-full h-full object-cover hidden md:block transform translate-z-0"
             onError={(e) => {
               console.log("Embed load failed, using gradient fallback.");
-              e.currentTarget.style.display = 'none';
+              (e.target as HTMLIFrameElement).style.display = 'none';
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent" />
@@ -193,7 +205,7 @@ export function HomePage() {
         </div>
       </main>
       <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400 z-10">
-        <p>Built with ���️ at Cloudflare</p>
+        <p>Built with ❤️ at Cloudflare</p>
       </footer>
       <Toaster richColors closeButton />
     </div>
