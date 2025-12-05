@@ -60,7 +60,7 @@ const VideoBackground = ({ active }: VideoBackgroundProps): JSX.Element => {
       <>
         <iframe
           ref={iframeRef}
-          src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0?autoplay=1&controls=0"
+          src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0?autoplay=1&loop=1&controls=0"
           width="640"
           height="360"
           frameBorder="0"

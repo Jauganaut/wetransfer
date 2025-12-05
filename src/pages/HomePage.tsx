@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import VideoBackground from '@/components/VideoBackground';
 import { motion, AnimatePresence, easeOut, Easing } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Toaster, toast } from 'sonner';
@@ -29,45 +30,6 @@ const heroVariants = [
     color: "#F59E0B"
   }
 ];
-function VideoBackground({ active }: { active: boolean }) {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  useEffect(() => {
-    if (iframeRef.current && active) {
-      try {
-        iframeRef.current.contentWindow?.postMessage({ command: 'play' }, '*');
-      } catch (e) {
-        console.log('Autoplay postMessage blocked (CORS), relying on embed attributes');
-      }
-    }
-  }, [active]);
-  return (
-    <div
-      className={cn(
-        "absolute inset-0 w-full h-full z-0 transition-opacity duration-1000",
-        active ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      )}
-    >
-        <>
-          <iframe
-            ref={iframeRef}
-            src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0?autoplay=1&controls=0"
-            width="640"
-            height="360"
-            frameBorder="0"
-            allow="autoplay; fullscreen"
-            allowFullScreen
-            sandbox="allow-scripts allow-same-origin allow-autoplay"
-            className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none user-select-none transform translate-z-0"
-            onError={(e) => {
-              console.log("Embed load failed, using gradient fallback.");
-              (e.target as HTMLIFrameElement).style.display = 'none';
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent z-10" />
-        </>
-    </div>
-  );
-}
 export function HomePage() {
   const [ctaVariant, setCtaVariant] = useState<'primary' | 'outline'>('primary');
   const [currentVariant, setCurrentVariant] = useState(2);
@@ -128,7 +90,7 @@ export function HomePage() {
                 <HeroPreviewCard />
               </div>
               <div className="order-1 lg:order-2 text-center lg:text-left">
-                  <AnimatePresence>
+                  <AnimatePresence mode="wait">
                   <motion.h1
                     key={`headline-${currentVariant}`}
                     variants={textFadeVariant}
@@ -139,6 +101,8 @@ export function HomePage() {
                   >
                     {activeVariant.headline}
                   </motion.h1>
+                  </AnimatePresence>
+                  <AnimatePresence mode="wait">
                   <motion.p
                     key={`subhead-${currentVariant}`}
                     variants={textFadeVariant}
@@ -203,7 +167,7 @@ export function HomePage() {
         </div>
       </main>
       <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400 z-10">
-        <p>Built with ❤️ at Cloudflare</p>
+        <p>Built with ��️ at Cloudflare</p>
       </footer>
       <Toaster richColors closeButton />
     </div>
