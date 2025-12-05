@@ -72,7 +72,7 @@ export function HomePage() {
   };
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white font-sans">
-      <img src="https://placehold.co/120x24/000000/FFFFFF/transparent?text=we&font=inter" alt="WeTransfer Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-6 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200" />
+      <img src="https://wetransfer.com/favicon.ico" alt="WeTransfer Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-6 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200" />
       <div className={cn(
         "absolute inset-0 w-full h-full z-0 transition-opacity duration-1000",
         currentVariant === 2 ? 'opacity-100' : 'opacity-0 pointer-events-none'
