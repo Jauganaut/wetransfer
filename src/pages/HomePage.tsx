@@ -47,32 +47,30 @@ function VideoBackground({ active }: { active: boolean }) {
         active ? 'opacity-100' : 'opacity-0 pointer-events-none'
       )}
     >
-      {active && (
         <>
           <iframe
             ref={iframeRef}
-            src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0?autoplay=1"
+            src="https://embed-play-link.lovable.app/embed/70b2a757-42fb-4c75-b175-6f6555e828c0?autoplay=1&controls=0"
             width="640"
             height="360"
             frameBorder="0"
             allow="autoplay; fullscreen"
             allowFullScreen
             sandbox="allow-scripts allow-same-origin allow-autoplay"
-            className="w-full h-full object-cover hidden md:block transform translate-z-0"
+            className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none user-select-none transform translate-z-0"
             onError={(e) => {
               console.log("Embed load failed, using gradient fallback.");
               (e.target as HTMLIFrameElement).style.display = 'none';
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent z-10" />
         </>
-      )}
     </div>
   );
 }
 export function HomePage() {
   const [ctaVariant, setCtaVariant] = useState<'primary' | 'outline'>('primary');
-  const [currentVariant, setCurrentVariant] = useState(0);
+  const [currentVariant, setCurrentVariant] = useState(2);
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentVariant(prev => (prev + 1) % heroVariants.length);
@@ -130,27 +128,27 @@ export function HomePage() {
                 <HeroPreviewCard />
               </div>
               <div className="order-1 lg:order-2 text-center lg:text-left">
-                <AnimatePresence mode="wait">
-                  <motion.div key={`variant-${currentVariant}`}>
-                    <motion.h1
-                      variants={textFadeVariant}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-display tracking-tighter text-[#17202A]"
-                    >
-                      {activeVariant.headline}
-                    </motion.h1>
-                    <motion.p
-                      variants={textFadeVariant}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      className="mt-6 max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-gray-600"
-                    >
-                      {activeVariant.subhead}
-                    </motion.p>
-                  </motion.div>
+                  <AnimatePresence>
+                  <motion.h1
+                    key={`headline-${currentVariant}`}
+                    variants={textFadeVariant}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-display tracking-tighter text-[#17202A]"
+                  >
+                    {activeVariant.headline}
+                  </motion.h1>
+                  <motion.p
+                    key={`subhead-${currentVariant}`}
+                    variants={textFadeVariant}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="mt-6 max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-gray-600"
+                  >
+                    {activeVariant.subhead}
+                  </motion.p>
                 </AnimatePresence>
                 <motion.div
                   variants={itemVariants}
