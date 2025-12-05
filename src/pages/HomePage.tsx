@@ -74,6 +74,30 @@ export function HomePage() {
     <div className="relative min-h-screen w-full overflow-hidden bg-white font-sans">
       {/* Simulating local asset '/assets/logo.png' as per client request */}
       <img src="https://placehold.co/120x24/000000/FFFFFF/transparent?text=we&font=inter" alt="WeTransfer Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-6 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200 pointer-events-none" />
+      <AnimatePresence>
+        {currentVariant === 2 && (
+          <motion.div
+            key="video-background"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.0 }}
+            className="absolute inset-0 w-full h-full z-0"
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="none"
+              poster="https://placehold.co/1920x1080/8B5CF6/FFFFFF/png?text=Loading..."
+              className="w-full h-full object-cover hidden md:block"
+              src="https://assets.mixkit.co/videos/preview/mixkit-abstract-floating-particles-background-31866-large.mp4"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent" />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <HeroDecorations color={activeVariant.color} />
       <NavPills />
       <main className="relative z-10">
@@ -166,7 +190,7 @@ export function HomePage() {
         </div>
       </main>
       <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400 z-10">
-        <p>Built with ��️ at Cloudflare</p>
+        <p>Built with ❤��� at Cloudflare</p>
       </footer>
       <Toaster richColors closeButton />
     </div>
