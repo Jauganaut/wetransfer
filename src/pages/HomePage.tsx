@@ -84,13 +84,12 @@ export function HomePage() {
               muted
               loop
               playsInline
-              preload="auto"
-              loading="lazy"
+              preload="metadata"
               poster="https://placehold.co/1920x1080/8B5CF6/FFFFFF/png?text=Loading..."
               className="w-full h-full object-cover hidden md:block"
               src="https://assets.mixkit.co/videos/preview/mixkit-abstract-floating-particles-background-31866-large.mp4"
               onError={(e) => {
-                console.error("Video failed to load, hiding element.");
+                console.warn("Video load failed, using gradient fallback.");
                 e.currentTarget.style.display = 'none';
               }}
             />
