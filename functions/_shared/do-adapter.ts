@@ -1,19 +1,12 @@
-/// <reference types="@cloudflare/workers-types" />
-
 import type { User, Chat, ChatMessage } from "../../shared/types";
 import { MOCK_CHAT_MESSAGES, MOCK_CHATS, MOCK_USERS } from "../../shared/mock-data";
 
 export class PagesDOAdapter {
-  constructor(private env: { GlobalDurableObject: DurableObjectNamespace }) {}
-
-  private getStub(id: string): DurableObjectStub {
-    const doId = this.env.GlobalDurableObject.idFromName(id);
-    return this.env.GlobalDurableObject.get(doId);
-  }
+  constructor(private env?: any) {}
 
   async getUsers(): Promise<User[]> {
-    // For demo purposes, return mock data
-    // In production, you'd fetch from DO
+    // Using mock data for Pages Functions
+    // Durable Objects would require a separate Worker
     return MOCK_USERS;
   }
 
@@ -22,7 +15,7 @@ export class PagesDOAdapter {
       id: crypto.randomUUID(),
       name: name.trim()
     };
-    // In production, save to DO
+    // In production, you'd save to a database or DO
     return user;
   }
 

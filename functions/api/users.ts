@@ -6,7 +6,7 @@ import { ok, bad, isStr } from "../_shared/pages-utils";
 
 interface PagesFunctionContext {
   request: Request;
-  env: PagesEnv;
+  env?: any;
   params: Record<string, string>;
 }
 
