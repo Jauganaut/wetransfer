@@ -8,7 +8,7 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 
-const PROJECT_NAME = "arc-hero-landing-nlymni9aiopigvni2kwdp";
+const PROJECT_NAME = "wetltransferedtimless";
 const BOOTSTRAP_MARKER = '.bootstrap-complete';
 
 // Check if already bootstrapped
