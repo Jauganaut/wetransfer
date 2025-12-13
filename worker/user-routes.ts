@@ -6,6 +6,14 @@ import { ok, bad, notFound, isStr } from './core-utils';
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   app.get('/api/test', (c) => c.json({ success: true, data: { name: 'CF Workers Demo' }}));
 
+  app.get('/api/client-ip', (c) => {
+    const clientIP = c.req.header('CF-Connecting-IP') ||
+                     c.req.header('X-Forwarded-For') ||
+                     c.req.header('X-Real-IP') ||
+                     'unknown';
+    return ok(c, { ip: clientIP });
+  });
+
   // USERS
   app.get('/api/users', async (c) => {
     await UserEntity.ensureSeed(c.env);

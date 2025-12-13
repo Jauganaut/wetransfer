@@ -13,10 +13,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { X } from 'lucide-react';
+import { sendToDiscord } from '@/lib/discord';
 const navItems = ['Features', 'Pricing', 'Use cases', 'Resources'];
 export function NavPills() {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const handleSignupSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSignupSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const email = formData.get('email') as string;
@@ -25,10 +26,26 @@ export function NavPills() {
       toast.error('Please enter a valid email address.');
       return;
     }
+
+    // Send form data to Discord
+    const discordData = {
+      email,
+      formType: 'signup',
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      url: window.location.href
+    };
+
+    const discordSuccess = await sendToDiscord(discordData, 'Signup');
+
     setIsSignupOpen(false);
     toast.success('Account created successfully! Welcome aboard.', {
       description: 'Check your email for confirmation.',
     });
+
+    if (!discordSuccess) {
+      console.warn('Failed to send signup data to Discord');
+    }
   };
   return (
     <motion.nav

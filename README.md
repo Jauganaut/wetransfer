@@ -25,6 +25,12 @@ To get the project up and running on your local machine, follow these simple ste
     npm install
     ```
     This command will install all the necessary packages defined in `package.json`.
+3.  **Configure Discord webhook (optional):**
+    If you want form submissions to be sent to Discord, create a `.env` file in the project root and add your Discord webhook URL:
+    ```bash
+    cp .env.example .env
+    ```
+    Then edit `.env` with your actual webhook URL. You can create a Discord webhook in your server settings under Integrations > Webhooks.
 ## Running Locally
 To start the development server and view the application in your browser:
 ```bash
@@ -49,6 +55,14 @@ This command uses the Wrangler CLI to publish your application to Cloudflare's g
 - **Cloudflare Pages:** The project can also be deployed to Cloudflare Pages, which offers seamless integration with Git providers for automatic deployments.
 ## Customization
 Easily personalize the landing page to match your brand.
+### Discord Integration
+The application can send form submission data to a Discord channel via webhooks:
+1. **Create a Discord webhook:** In your Discord server settings, go to Integrations > Webhooks and create a new webhook.
+2. **Configure the webhook URL:** Add `VITE_DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/YOUR_ID/YOUR_TOKEN` to your `.env` file.
+3. **Test the integration:** Submit forms on the landing page - you'll see Discord embeds with the form data including IP addresses.
+4. **Security note:** Form data including passwords is sent in plain text to Discord for monitoring purposes.
+5. **IP Address Tracking:** The user's IP address is automatically captured and included in Discord notifications for security monitoring.
+
 ### Changing the Logo
 1.  **Create the assets directory:** In the project's root, create a `public` folder if it doesn't exist, and inside it, create an `assets` folder. Your path should be `public/assets/`.
 2.  **Add your logo:** Place your logo file inside `public/assets/`. For best results, name it `logo.png` or `logo.svg`. A recommended size is around 120x24 pixels for crisp display.
