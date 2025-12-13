@@ -74,7 +74,7 @@ export function HomePage() {
   };
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white font-sans">
-      <img src={logo} alt="App Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-9 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200" />
+      <img src={logo} alt="App Logo" className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 h-14 w-auto z-30 rounded-md hover:scale-105 transition-transform duration-200" />
       <VideoBackground active={currentVariant === 2} />
       <HeroDecorations color={activeVariant.color} />
       <NavPills />
@@ -167,9 +167,6 @@ export function HomePage() {
           </div>
         </div>
       </main>
-      <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400 z-10">
-        <p>Built with ��️ at Cloudflare</p>
-      </footer>
       <Toaster richColors closeButton />
     </div>
   );
